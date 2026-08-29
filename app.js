@@ -8,3 +8,5 @@ const app = express();
 // Middlewares
 // third-party middleswares
 app.use(express.json());
+
+export default app;
