@@ -1,13 +1,24 @@
 {
   "name": "daily-feast-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This is RESTful api for DailyFeast Restaurant backend",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sivatharan-dev",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.5.6",
+    "prettier": "^3.9.6"
+  }
 }
