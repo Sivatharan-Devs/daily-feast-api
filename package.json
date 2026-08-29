@@ -4,7 +4,8 @@
   "description": "This is RESTful api for DailyFeast Restaurant backend",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js",
     "dev": "nodemon server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -20,5 +21,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.5.6",
     "prettier": "^3.9.6"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }
