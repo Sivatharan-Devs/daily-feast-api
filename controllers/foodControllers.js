@@ -4,23 +4,9 @@ export const getAllFoods = async (req, res) => {
   try {
     // basic filtering
     const queryObj = { ...req.query };
-    const allowedFields = [
-      'name',
-      'categories',
-      'ratingsAverage',
-      'ratingsQuantity',
-      'price',
-      'priceDiscount',
-      'description',
-      'createdAt',
-    ];
+
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
-
-    Object.keys(queryObj).forEach((key) => {
-      const baseField = key.split('[')[0];
-      if (!allowedFields.includes(baseField)) delete queryObj[key];
-    });
 
     const foods = await Food.find(queryObj);
     res.status(200).json({
