@@ -1,39 +1,89 @@
-export const getAllFoods = (req, res, next) => {
-  res.status(500).json({
-    status: 'fail',
-    message: 'Test:getAllFoods',
-  });
-  next();
+import Food from '../models/foodModel.js';
+
+export const getAllFoods = async (req, res) => {
+  try {
+    const foods = await Food.find();
+    res.status(200).json({
+      status: 'success',
+      length: foods.length,
+      data: {
+        foods,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
-export const getFood = (req, res, next) => {
-  res.status(500).json({
-    status: 'fail',
-    message: 'Test:getFood',
-  });
-  next();
+export const getFood = async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        food,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
-export const createFood = (req, res, next) => {
-  res.status(500).json({
-    status: 'fail',
-    message: 'Test:createFood',
-  });
-  next();
+export const createFood = async (req, res) => {
+  try {
+    const newFood = await Food.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        food: newFood,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
-export const updateFood = (req, res, next) => {
-  res.status(500).json({
-    status: 'fail',
-    message: 'Test:updateFood',
-  });
-  next();
+export const updateFood = async (req, res) => {
+  try {
+    const updatedFood = await Food.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        food: updatedFood,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
-export const deleteFood = (req, res, next) => {
-  res.status(500).json({
-    status: 'fail',
-    message: 'Test:deleteFood',
-  });
-  next();
+export const deleteFood = async (req, res) => {
+  try {
+    await Food.findByIdAndDelete(req.params.id);
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
