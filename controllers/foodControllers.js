@@ -18,7 +18,8 @@ export const getAllFoods = async (req, res) => {
     excludedFields.forEach((el) => delete queryObj[el]);
 
     Object.keys(queryObj).forEach((key) => {
-      if (!allowedFields.includes(key)) delete queryObj[key];
+      const baseField = key.split('[')[0];
+      if (!allowedFields.includes(baseField)) delete queryObj[key];
     });
 
     const foods = await Food.find(queryObj);
@@ -32,7 +33,7 @@ export const getAllFoods = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -49,7 +50,7 @@ export const getFood = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -66,7 +67,7 @@ export const createFood = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -87,7 +88,7 @@ export const updateFood = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -102,7 +103,7 @@ export const deleteFood = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
