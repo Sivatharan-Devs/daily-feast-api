@@ -2,7 +2,13 @@ import Food from '../models/foodModel.js';
 
 export const getAllFoods = async (req, res) => {
   try {
-    const foods = await Food.find();
+    // basic filtering
+    const queryObj = { ...req.query };
+
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    const foods = await Food.find(queryObj);
     res.status(200).json({
       status: 'success',
       length: foods.length,
@@ -13,7 +19,7 @@ export const getAllFoods = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -30,7 +36,7 @@ export const getFood = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -47,7 +53,7 @@ export const createFood = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -68,7 +74,7 @@ export const updateFood = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
@@ -83,7 +89,7 @@ export const deleteFood = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
