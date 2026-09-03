@@ -2,7 +2,12 @@ import Food from '../models/foodModel.js';
 
 export const getAllFoods = async (req, res) => {
   try {
-    const foods = await Food.find();
+    // basic filtering
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    const foods = await Food.find(queryObj);
     res.status(200).json({
       status: 'success',
       length: foods.length,
