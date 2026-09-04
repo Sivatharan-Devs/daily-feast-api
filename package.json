@@ -8,7 +8,9 @@
     "start:prod": "NODE_ENV=production nodemon server.js",
     "dev": "nodemon server.js",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "dev:import-dev-data": "node dev-data/data/import-sample-data.js --import",
+    "dev:delete-dev-data": "node dev-data/data/import-sample-data.js --delete"
   },
   "keywords": [],
   "author": "Sivatharan-dev",
