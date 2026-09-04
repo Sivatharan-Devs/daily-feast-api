@@ -18,6 +18,7 @@ export const getAllFoods = async (req, res) => {
         const operator = `$${match[2]}`;
 
         advancedQueryObj[field] = {
+          ...(advancedQueryObj[field] || {}),
           [operator]: queryObj[key],
         };
       } else {
