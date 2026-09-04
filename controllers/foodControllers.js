@@ -8,7 +8,23 @@ export const getAllFoods = async (req, res) => {
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    const foods = await Food.find(queryObj);
+    // advanced filtering
+    const advancedQueryObj = {};
+
+    Object.keys(queryObj).forEach((key) => {
+      const match = key.match(/^(.+)\[(gte|gt|lte|lt)\]$/);
+      if (match) {
+        const field = match[1];
+        const operator = `$${match[2]}`;
+
+        advancedQueryObj[field] = {
+          [operator]: queryObj[key],
+        };
+      } else {
+        advancedQueryObj[key] = queryObj[key];
+      }
+    });
+    const foods = await Food.find(advancedQueryObj);
     res.status(200).json({
       status: 'success',
       length: foods.length,
