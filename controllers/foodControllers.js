@@ -3,7 +3,11 @@ import APIFeatures from '../utils/apiFeatures.js';
 
 export const getAllFoods = async (req, res) => {
   try {
-    const features = new APIFeatures(Food.find(), req.query);
+    const features = new APIFeatures(Food.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
     const foods = await features.query;
     res.status(200).json({
       status: 'success',
