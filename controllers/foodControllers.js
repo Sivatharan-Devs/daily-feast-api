@@ -5,7 +5,7 @@ export const getAllFoods = async (req, res) => {
   try {
     const features = new APIFeatures(Food.find(), {
       ...req.query,
-      ...req.aliasFood,
+      ...req.aliasFoods,
     })
       .filter()
       .sort()
@@ -132,7 +132,6 @@ export const getPopularFoods = (req, res, next) => {
 
 // Get Discounted foods
 export const getDiscountedFoods = (req, res, next) => {
-  console.log('hello form discounted foods');
   req.aliasFoods = {
     'priceDiscount[gt]': '0',
   };
