@@ -1,31 +1,14 @@
 import Food from '../models/foodModel.js';
+import APIFeatures from '../utils/apiFeatures.js';
 
 export const getAllFoods = async (req, res) => {
   try {
-    // basic filtering
-    const queryObj = { ...req.query };
-
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    excludedFields.forEach((el) => delete queryObj[el]);
-
-    // advanced filtering
-    const advancedQueryObj = {};
-
-    Object.keys(queryObj).forEach((key) => {
-      const match = key.match(/^(.+)\[(gte|gt|lte|lt)\]$/);
-      if (match) {
-        const field = match[1];
-        const operator = `$${match[2]}`;
-
-        advancedQueryObj[field] = {
-          ...(advancedQueryObj[field] || {}),
-          [operator]: queryObj[key],
-        };
-      } else {
-        advancedQueryObj[key] = queryObj[key];
-      }
-    });
-    const foods = await Food.find(advancedQueryObj);
+    const features = new APIFeatures(Food.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const foods = await features.query;
     res.status(200).json({
       status: 'success',
       length: foods.length,
