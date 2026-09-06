@@ -3,7 +3,10 @@ import APIFeatures from '../utils/apiFeatures.js';
 
 export const getAllFoods = async (req, res) => {
   try {
-    const features = new APIFeatures(Food.find(), req.query)
+    const features = new APIFeatures(Food.find(), {
+      ...req.query,
+      ...req.aliasFoods,
+    })
       .filter()
       .sort()
       .limitFields()
@@ -92,4 +95,45 @@ export const deleteFood = async (req, res) => {
       message: err.message,
     });
   }
+};
+
+// alias-route controllers
+
+// Get Top 5 Foods
+export const getTop5Foods = (req, res, next) => {
+  req.aliasFoods = {
+    limit: '5',
+    sort: '-ratingsAverage,price',
+    fields:
+      'name,categories,ratingsAverage,ratingsQuantity,price,priceDiscount,description,imageCover',
+  };
+
+  next();
+};
+
+// Get Top 10 Foods
+export const getTop10Foods = (req, res, next) => {
+  req.aliasFoods = {
+    limit: '10',
+    sort: '-ratingsAverage,price',
+    fields:
+      'name,categories,ratingsAverage,ratingsQuantity,price,priceDiscount,description,imageCover',
+  };
+  next();
+};
+
+// Get Popular Foods
+export const getPopularFoods = (req, res, next) => {
+  req.aliasFoods = {
+    sort: '-ratingsQuantity',
+  };
+  next();
+};
+
+// Get Discounted foods
+export const getDiscountedFoods = (req, res, next) => {
+  req.aliasFoods = {
+    'priceDiscount[gt]': '0',
+  };
+  next();
 };
