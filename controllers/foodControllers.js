@@ -137,3 +137,39 @@ export const getDiscountedFoods = (req, res, next) => {
   };
   next();
 };
+
+// aggregation route handler
+export const getFoodStats = async (req, res) => {
+  try {
+    const stats = await Food.aggregate([
+      {
+        $match: {
+          ratingsAverage: { $gte: 4.5 },
+          ratingsQuantity: { $gt: 0 },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          numFoods: { $sum: 1 },
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgRatings: { $avg: '$ratingsAverage' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'error',
+      message: err.message,
+    });
+  }
+};

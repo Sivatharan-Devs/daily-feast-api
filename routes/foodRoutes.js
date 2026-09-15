@@ -9,6 +9,7 @@ import {
   getTop10Foods,
   getPopularFoods,
   getDiscountedFoods,
+  getFoodStats,
 } from '../controllers/foodControllers.js';
 
 // create router
@@ -21,6 +22,9 @@ router.route('/top-5-foods').get(getTop5Foods, getAllFoods);
 router.route('/top-10-foods').get(getTop10Foods, getAllFoods);
 router.route('/popular-foods').get(getPopularFoods, getAllFoods);
 router.route('/discounted-foods').get(getDiscountedFoods, getAllFoods);
+
+// aggregated routes
+router.route('/food-stats').get(getFoodStats);
 
 router.route('/:id').get(getFood).patch(updateFood).delete(deleteFood);
 
